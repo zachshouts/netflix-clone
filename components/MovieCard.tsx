@@ -79,6 +79,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
               <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
             </div>
           </div>
+          <p className='text-white text-xl md:text-2xl mt-2'>{data.title}</p>
           <p className="text-green-400 font-semibold mt-4">
             New <span className="text-white">2023</span>
           </p>
