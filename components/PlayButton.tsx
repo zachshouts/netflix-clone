@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FaPlayCircle } from 'react-icons/fa';
+import { BsPlayCircle } from 'react-icons/bs';
 
 
 interface PlayButtonProps {
@@ -24,7 +24,8 @@ const PlayButton: React.FC<PlayButtonProps> = ({ movieId }) => {
       hover:bg-neutral-300
       transition
     '>
-      <FaPlayCircle className='w-4 md:w-7 text-black mr-1' />
+      <BsPlayCircle className='w-4 md:w-7 text-black mr-1' />
+      Play
     </button>
   );
 };
