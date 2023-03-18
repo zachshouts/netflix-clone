@@ -8,11 +8,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await serverAuth(req);
 
-    const movies = await prismadb.movie.findMany();
+    const { movieId } = req.query;
+
+    if (typeof movieId !== 'string') {
+      throw new Error('Invalid Id');
+    }
+
+    if (!movieId) {
+      throw new Error('Missing Id');
+    }
+
+    const movies = await prismadb.movie.findUnique({
+      where: {
+        id: movieId
+      }
+    });
 
     res.status(200).json(movies);
   } catch (err) {
     console.log(err);
-    res.status(400).end();
+    res.status(500).end();
   }
 };
