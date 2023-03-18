@@ -25,14 +25,16 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
 
     const user = await prismadb.user.create({
       data: {
-        email,
-        name,
-        hashedPassword,
+        email: email,
+        name: name,
+        hashedPassword: hashedPassword,
         image: '',
         emailVerified: new Date()
       }
     });
-    
+
+    res.status(200).json( user );
+
   } catch (err) {
     console.error(err);
     res.status(400).end();
