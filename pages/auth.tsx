@@ -1,18 +1,31 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import axios from 'axios';
+import { useState, useCallback } from 'react';
 import { Input } from '@/components';
 
 const Auth = () => {
 
-  const [ formData, setFormData ] = useState({ username: '', email: '', password: '' });
+  const [ formData, setFormData ] = useState({ name: '', email: '', password: '' });
   const [ variant, setVariant ] = useState('login');
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }, []);
+  const handleInputChange = ((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  });
 
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
   }, []);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post('/api/register', {
+        email: formData.email,
+        username: formData.name,
+        password: formData.password
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }, [formData.email, formData.name, formData.password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -28,10 +41,10 @@ const Auth = () => {
             <div className="flex flex-col gap-4">
               {variant === 'register' && (
                 <Input
-                  id="username"
+                  id="name"
                   type="text"
                   label="Username"
-                  value={formData.username}
+                  value={formData.name}
                   onChange={handleInputChange} 
                 />
               )}
@@ -50,7 +63,7 @@ const Auth = () => {
                 onChange={handleInputChange} 
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button onClick={register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
               {variant === 'login' ? 'Login' : 'Sign up'}
             </button>
             <p className="text-neutral-500 mt-12">
